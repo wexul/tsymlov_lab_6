@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Студенты - таблица</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 70%; }
+        th, td { border: 1px solid #888; padding: 8px 12px; }
+        th { background: #005a9e; color: #fff; text-align: left; }
+        tr:nth-child(even) { background: #eef4fa; }
+        .average { margin-top: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Список студентов</h1>
+    <table>
+        <tr><th>ФИО</th><th>Группа</th><th>Оценка</th></tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.group }}</td>
+            <td>{{ student.grade }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if average is not none %}
+    <p class="average">
+        Всего студентов: {{ students|length }},
+        средний балл: {{ "%.2f"|format(average) }}
+    </p>
+    {% endif %}
+</body>
+</html>
