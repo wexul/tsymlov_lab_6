@@ -1,0 +1,227 @@
+Лабораторная работа №6, вариант 4 - фактические запуски
+======================================================================
+
+Дата выполнения: 08.11.2026
+Python: 3.11.1, Flask 3.1, FastAPI 0.162, SQLAlchemy 2.1
+ОС: Windows 10
+
+Для каждого веб-приложения поднимался реальный сервер
+(Flask dev server / uvicorn), запросы выполнены через httpx,
+после чего сервер остановлен. Ниже команды, HTTP-статусы
+и тела ответов.
+
+----------------------------------------------------------------------
+Задание 4 (средняя). Flask: страница с таблицей
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe task04_flask_table.py
+$ GET http://127.0.0.1:5004/
+HTTP 200
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Студенты - таблица</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 70%; }
+        th, td { border: 1px solid #888; padding: 8px 12px; }
+        th { background: #005a9e; color: #fff; text-align: left; }
+        tr:nth-child(even) { background: #eef4fa; }
+        .average { margin-top: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Список студентов</h1>
+    <table>
+        <tr><th>ФИО</th><th>Группа</th><th>Оценка</th></tr>
+        
+        <tr>
+            <td>Полошков Ярослав Витальевич</td>
+            <td>220042-11</td>
+            <td>5</td>
+        </tr>
+        
+        <tr>
+            <td>Иванов Иван Иванович</td>
+            <td>220042-11</td>
+            <td>4</td>
+        </tr>
+        
+        <tr>
+            <td>Петрова Анна Сергеевна</td>
+            <td>221341</td>
+            <td>5</td>
+        </tr>
+        
+        <tr>
+            <td>Сидоров Сидор Сидорович</td>
+            <td>221141</td>
+            <td>3</td>
+        </tr>
+        
+    </table>
+    
+    <p class="average">
+        Всего студентов: 4,
+        средний балл: 4.25
+    </p>
+    
+</body>
+</html>
+
+$ GET http://127.0.0.1:5004/api/students
+HTTP 200
+{"average":4.25,"students":[{"grade":5,"group":"220042-11","name":"\u041f\u043e\u043b\u043e\u0448\u043a\u043e\u0432 \u042f\u0440\u043e\u0441\u043b\u0430\u0432 \u0412\u0438\u0442\u0430\u043b\u044c\u0435\u0432\u0438\u0447"},{"grade":4,"group":"220042-11","name":"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447"},{"grade":5,"group":"221341","name":"\u041f\u0435\u0442\u0440\u043e\u0432\u0430 \u0410\u043d\u043d\u0430 \u0421\u0435\u0440\u0433\u0435\u0435\u0432\u043d\u0430"},{"grade":3,"group":"221141","name":"\u0421\u0438\u0434\u043e\u0440\u043e\u0432 \u0421\u0438\u0434\u043e\u0440 \u0421\u0438\u0434\u043e\u0440\u043e\u0432\u0438\u0447"}]}
+
+
+сервер остановлен
+
+----------------------------------------------------------------------
+Задание 6 (средняя). FastAPI Hello
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m uvicorn task06_fastapi_hello:app --port 5006
+$ GET http://127.0.0.1:5006/
+HTTP 200
+{"message":"Hello, FastAPI!"}
+
+$ GET http://127.0.0.1:5006/hello/Ярослав
+HTTP 200
+{"message":"Привет, Ярослав!"}
+
+сервер остановлен
+
+----------------------------------------------------------------------
+Задание 10 (средняя). REST API списка задач
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m uvicorn task10_rest_tasks:app --port 5010
+$ POST http://127.0.0.1:5010/tasks
+  тело запроса: {'title': 'Сдать лабу №6'}
+HTTP 201
+{"title":"Сдать лабу №6","done":false,"id":1}
+
+$ POST http://127.0.0.1:5010/tasks
+  тело запроса: {'title': 'Проверить ответ бота'}
+HTTP 201
+{"title":"Проверить ответ бота","done":false,"id":2}
+
+$ GET http://127.0.0.1:5010/tasks
+HTTP 200
+[{"title":"Сдать лабу №6","done":false,"id":1},{"title":"Проверить ответ бота","done":false,"id":2}]
+
+$ PATCH http://127.0.0.1:5010/tasks/1
+  тело запроса: {'done': True}
+HTTP 200
+{"title":"Сдать лабу №6","done":true,"id":1}
+
+$ DELETE http://127.0.0.1:5010/tasks/2
+HTTP 204
+
+
+$ GET http://127.0.0.1:5010/tasks/999
+HTTP 404
+{"detail":"Задача 999 не найдена"}
+
+сервер остановлен
+
+----------------------------------------------------------------------
+Задание 5 (повышенная). REST API заметок
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m uvicorn task05_notes_api:app --port 5005
+$ POST http://127.0.0.1:5005/notes
+  тело запроса: {'title': 'Flask', 'content': 'Шаблоны Jinja2', 'tags': ['учёба']}
+HTTP 201
+{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.445757Z"}
+
+$ POST http://127.0.0.1:5005/notes
+  тело запроса: {'title': 'FastAPI', 'content': 'Swagger на /docs', 'tags': ['учёба', 'api']}
+HTTP 201
+{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:35:24.475811Z","updated_at":"2026-11-08T12:35:24.475811Z"}
+
+$ GET http://127.0.0.1:5005/notes?tag=api
+HTTP 200
+[{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:35:24.475811Z","updated_at":"2026-11-08T12:35:24.475811Z"}]
+
+$ GET http://127.0.0.1:5005/notes?q=jinja
+HTTP 200
+[{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.445757Z"}]
+
+$ PUT http://127.0.0.1:5005/notes/1
+  тело запроса: {'title': 'Flask 3', 'content': 'Обновлённый текст'}
+HTTP 200
+{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.570668Z"}
+
+$ DELETE http://127.0.0.1:5005/notes/2
+HTTP 204
+
+
+$ GET http://127.0.0.1:5005/notes
+HTTP 200
+[{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.570668Z"}]
+
+сервер остановлен
+
+----------------------------------------------------------------------
+Задание 9 (повышенная). SQLAlchemy CRUD
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe task09_sqlalchemy_demo.py
+
+SQLAlchemy: создана in-memory БД и таблица students
+INSERT: добавлено 3 записи
+SELECT все:
+  Student(id=1, 'Полошков Ярослав Витальевич', '220042-11', grade=5)
+  Student(id=2, 'Иванов Иван Иванович', '220042-11', grade=4)
+  Student(id=3, 'Петрова Анна Сергеевна', '221341', grade=5)
+SELECT по группе 220042-11: 2 записи
+UPDATE: у студента id=1 теперь оценка 4
+DELETE: удалён id=1; осталось записей: 2
+Попытка добавить оценку 10:
+  Ошибка: оценка должна быть от 2 до 5
+
+код возврата: 0
+
+----------------------------------------------------------------------
+Модульные тесты всех заданий (unittest)
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m unittest -v
+
+C:\Users\polos\AppData\Local\Programs\Python\Python311\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_health (test_tasks.TestFastApiHello.test_health) ... ok
+test_hello_name (test_tasks.TestFastApiHello.test_hello_name) ... ok
+test_openapi_schema_available (test_tasks.TestFastApiHello.test_openapi_schema_available) ... ok
+test_root (test_tasks.TestFastApiHello.test_root) ... ok
+test_api_students (test_tasks.TestFlaskTable.test_api_students) ... ok
+test_average_grade (test_tasks.TestFlaskTable.test_average_grade) ... ok
+test_index_contains_table (test_tasks.TestFlaskTable.test_index_contains_table) ... ok
+test_create_has_timestamps (test_tasks.TestNotesApi.test_create_has_timestamps) ... ok
+test_delete_and_404 (test_tasks.TestNotesApi.test_delete_and_404) ... ok
+test_list_and_filter (test_tasks.TestNotesApi.test_list_and_filter) ... ok
+test_pagination (test_tasks.TestNotesApi.test_pagination) ... ok
+test_replace (test_tasks.TestNotesApi.test_replace) ... ok
+test_validation (test_tasks.TestNotesApi.test_validation) ... ok
+test_add_and_get (test_tasks.TestSqlAlchemy.test_add_and_get) ... ok
+test_delete (test_tasks.TestSqlAlchemy.test_delete) ... ok
+test_filter_by_group (test_tasks.TestSqlAlchemy.test_filter_by_group) ... ok
+test_update_grade (test_tasks.TestSqlAlchemy.test_update_grade) ... ok
+test_validation (test_tasks.TestSqlAlchemy.test_validation) ... ok
+test_create_and_get (test_tasks.TestTasksApi.test_create_and_get) ... ok
+test_create_empty_title_rejected (test_tasks.TestTasksApi.test_create_empty_title_rejected) ... ok
+test_delete (test_tasks.TestTasksApi.test_delete) ... ok
+test_empty_list (test_tasks.TestTasksApi.test_empty_list) ... ok
+test_missing_task_404 (test_tasks.TestTasksApi.test_missing_task_404) ... ok
+test_update (test_tasks.TestTasksApi.test_update) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.228s
+
+OK
+
+код возврата: 0
+
+----------------------------------------------------------------------
+Проверка стиля кода (flake8)
+----------------------------------------------------------------------
+$ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m flake8 . --statistics
+
+
+код возврата: 0
