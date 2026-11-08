@@ -31,13 +31,13 @@ class Student(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     full_name: Mapped[str] = mapped_column(String(200), nullable=False)
-    group: Mapped[str] = mapped_column(String(20), nullable=False)
+    group_name: Mapped[str] = mapped_column(String(20), nullable=False)
     grade: Mapped[int] = mapped_column(nullable=False)
 
     def __repr__(self) -> str:
         """Техническое представление записи."""
         return (f"Student(id={self.id}, {self.full_name!r}, "
-                f"{self.group!r}, grade={self.grade})")
+                f"{self.group_name!r}, grade={self.grade})")
 
 
 def make_engine(url: str = "sqlite:///students.db"):
@@ -61,7 +61,7 @@ def add_student(engine, full_name: str, group: str,
         raise ValueError("оценка должна быть от 2 до 5")
     with Session(engine) as session:
         student = Student(full_name=full_name.strip(),
-                          group=group.strip(), grade=grade)
+                          group_name=group.strip(), grade=grade)
         session.add(student)
         session.commit()
         session.refresh(student)
@@ -73,7 +73,7 @@ def get_students(engine, group: str | None = None) -> list[Student]:
     """Возвращает студентов, опционально фильтруя по группе."""
     statement = select(Student)
     if group is not None:
-        statement = statement.where(Student.group == group)
+        statement = statement.where(Student.group_name == group)
     with Session(engine) as session:
         return list(session.scalars(statement).all())
 

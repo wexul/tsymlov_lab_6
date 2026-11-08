@@ -71,7 +71,7 @@ def list_notes(
     offset: int = Query(default=0, ge=0),
 ) -> list[Note]:
     """Список заметок с поиском, фильтром по тегу и пагинацией."""
-    result = list(_notes.values())
+    result = sorted(_notes.values(), key=lambda note: note.id)
     if q:
         needle = q.lower()
         result = [note for note in result

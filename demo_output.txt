@@ -130,25 +130,25 @@ $ C:\Users\polos\AppData\Local\Programs\Python\Python311\python.exe -m uvicorn t
 $ POST http://127.0.0.1:5005/notes
   тело запроса: {'title': 'Flask', 'content': 'Шаблоны Jinja2', 'tags': ['учёба']}
 HTTP 201
-{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.445757Z"}
+{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:54:43.540194Z","updated_at":"2026-11-08T12:54:43.540194Z"}
 
 $ POST http://127.0.0.1:5005/notes
   тело запроса: {'title': 'FastAPI', 'content': 'Swagger на /docs', 'tags': ['учёба', 'api']}
 HTTP 201
-{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:35:24.475811Z","updated_at":"2026-11-08T12:35:24.475811Z"}
+{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:54:43.567226Z","updated_at":"2026-11-08T12:54:43.567226Z"}
 
 $ GET http://127.0.0.1:5005/notes?tag=api
 HTTP 200
-[{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:35:24.475811Z","updated_at":"2026-11-08T12:35:24.475811Z"}]
+[{"title":"FastAPI","content":"Swagger на /docs","tags":["учёба","api"],"id":2,"created_at":"2026-11-08T12:54:43.567226Z","updated_at":"2026-11-08T12:54:43.567226Z"}]
 
 $ GET http://127.0.0.1:5005/notes?q=jinja
 HTTP 200
-[{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.445757Z"}]
+[{"title":"Flask","content":"Шаблоны Jinja2","tags":["учёба"],"id":1,"created_at":"2026-11-08T12:54:43.540194Z","updated_at":"2026-11-08T12:54:43.540194Z"}]
 
 $ PUT http://127.0.0.1:5005/notes/1
   тело запроса: {'title': 'Flask 3', 'content': 'Обновлённый текст'}
 HTTP 200
-{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.570668Z"}
+{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:54:43.540194Z","updated_at":"2026-11-08T12:54:43.660982Z"}
 
 $ DELETE http://127.0.0.1:5005/notes/2
 HTTP 204
@@ -156,7 +156,7 @@ HTTP 204
 
 $ GET http://127.0.0.1:5005/notes
 HTTP 200
-[{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:35:24.445757Z","updated_at":"2026-11-08T12:35:24.570668Z"}]
+[{"title":"Flask 3","content":"Обновлённый текст","tags":[],"id":1,"created_at":"2026-11-08T12:54:43.540194Z","updated_at":"2026-11-08T12:54:43.660982Z"}]
 
 сервер остановлен
 
@@ -212,7 +212,7 @@ test_missing_task_404 (test_tasks.TestTasksApi.test_missing_task_404) ... ok
 test_update (test_tasks.TestTasksApi.test_update) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.228s
+Ran 24 tests in 0.249s
 
 OK
 
